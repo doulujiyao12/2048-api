@@ -1,6 +1,6 @@
 from game2048.game import Game
 from game2048.displays import Display
-from game2048.myRCNN import RNN
+from game2048.biRNN import RNN
 #from game2048.myPlanning import MyPlanning
 
 
@@ -18,29 +18,32 @@ def single_run_getdata(size, writeFile, LB, HB, AgentClass, **kwargs):
 
 if __name__ == '__main__':
     GAME_SIZE = 4
-    SCORE_TO_WIN = 2048
+    SCORE_TO_WIN = 4096
     N_TESTS = 10
     WRITEFILE = 'game2048/DATA.csv'
-    LB = 256
-    HB = 2048
+    LB = 512
+    HB = 4096
 
     '''====================
     Use your own agent here.'''
-    # from game2048.agents import ExpectiMaxAgent as TestAgent
+    #from game2048.agents import ExpectiMaxAgent as TestAgent
     #from game2048.agents import MyRnnAgent as TestAgent
     # from game2048.agents import MyPlanningAgent as TestAgent
     #from game2048.agents import getBoardFormExpect as TestAgent
     # from game2048.agents import getBoardFromMyRnnAgent as TestAgent
     #from game2048.agents import MyRnn_onehotAgent as TestAgent
+    #from game2048.agents import MyRnnTAgent as TestAgent
     from game2048.agents import MyRnnTAgent as TestAgent
     '''===================='''
 
     scores = []
-    for _ in range(N_TESTS):
+    for n_ep in range(N_TESTS):
         score = single_run(GAME_SIZE, SCORE_TO_WIN,
                            AgentClass=TestAgent)
         #score = single_run_getdata(GAME_SIZE, WRITEFILE, LB, HB,
         #                    AgentClass=TestAgent)
         scores.append(score)
-        # print(scores)
+        print(scores)
+        if (n_ep%100==0):
+            print(n_ep)
     print("Average scores: @%s times" % N_TESTS, sum(scores) / len(scores))
