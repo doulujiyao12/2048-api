@@ -9,7 +9,7 @@ import sys
 #from displays import Display
 import csv, os
 #PATH = '/home/lqgao/2048-api/model/rnn_model_21.pkl'
-PATH = '/home/fengdahu/2048-api/model/rnn_model_15.pkl'
+PATH = '/home/fengdahu/2048-api/model/rnn_model_6.pkl'
 PATH2 = '/home/fengdahu/2048-api/model/rnn_model_20final.pkl'
 PATH1 = '/home/fengdahu/2048-api/model/myRNN3Random05Model50rate:0.pkl'
 dataSetFilename = 'Train.csv'
@@ -259,7 +259,7 @@ class MyRnnTAgent(Agent):
         # self.search_func = board_to_move
         # self.search_func = np.random.randint(0, 4)
         #self.model = torch.load(PATH,map_location='cpu')
-        self.model = torch.load(PATH,map_location='cpu')
+        self.model = torch.load(PATH,map_location=lambda storage, loc: storage.cuda(0))
         self.model.cuda()
         self.model.eval()
 
@@ -290,8 +290,8 @@ class MyRnnTAgent(Agent):
         # print(board)
         # board = torch.unsqueeze(board, dim=0)
         board = board.type(torch.float)
-        #device1 = torch.device("cuda:0")
-        #board=board.to(device1)
+        device1 = torch.device("cuda:0")
+        board=board.to(device1)
         # print("^^^^^^^")
         # print(board)
         out = self.model(board)
